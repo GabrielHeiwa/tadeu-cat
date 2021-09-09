@@ -45,17 +45,12 @@ var logger_1 = __importDefault(require("../logger"));
 var fs_1 = __importDefault(require("fs"));
 var messenger_1 = require("../messenger");
 var SESSION_FILE_PATH = "./session.json";
-var sessionCfg;
-if (fs_1.default.existsSync(SESSION_FILE_PATH))
-    fs_1.default.rmSync(SESSION_FILE_PATH);
 var ChatBot = /** @class */ (function () {
     function ChatBot() {
         this.client = new whatsapp_web_js_1.Client({
-            session: sessionCfg,
             qrTimeoutMs: 0,
             puppeteer: {
                 args: ["--no-sandbox", "--disable-setuid-sandbox"],
-                ignoreHTTPSErrors: true,
             },
         });
         this.status = "ChatBot ainda não autenticado com o whatsapp web";
@@ -77,12 +72,6 @@ var ChatBot = /** @class */ (function () {
                         this.startChatBot(socket);
                         return [2 /*return*/];
                     case 3:
-                        if (!this.client.pupPage) return [3 /*break*/, 5];
-                        return [4 /*yield*/, this.client.destroy()];
-                    case 4:
-                        _a.sent();
-                        _a.label = 5;
-                    case 5:
                         this.startChatBot(socket);
                         return [2 /*return*/];
                 }
@@ -93,9 +82,7 @@ var ChatBot = /** @class */ (function () {
         var _this = this;
         this.client
             .initialize()
-            .then(function () { return console.log("Sucesso ao abrir chrome"); })
             .catch(function (err) {
-            console.log(err);
             logger_1.default.error(err.message, {
                 date: new Date().toLocaleString(),
             });
@@ -119,12 +106,6 @@ var ChatBot = /** @class */ (function () {
             console.log("Autenticado");
             logger_1.default.info("Chat bot authenticated", {
                 date: new Date().toLocaleString(),
-            });
-            sessionCfg = session;
-            fs_1.default.writeFile("session.json", JSON.stringify(session), function (err) {
-                return err !== null && err !== void 0 ? err : logger_1.default.error("Error to create session file", {
-                    date: new Date().toLocaleString(),
-                });
             });
             _this.status = "autenticado";
             socket.emit("status", _this.status);

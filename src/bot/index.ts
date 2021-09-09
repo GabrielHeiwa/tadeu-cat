@@ -10,17 +10,12 @@ type SocketType = Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>;
 
 const SESSION_FILE_PATH = "./session.json";
 
-let sessionCfg: any;
-
-if (fs.existsSync(SESSION_FILE_PATH)) fs.rmSync(SESSION_FILE_PATH);
 
 export default class ChatBot {
 	private client: Client = new Client({
-		session: sessionCfg,
 		qrTimeoutMs: 0,
 		puppeteer: {
 			args: ["--no-sandbox", "--disable-setuid-sandbox"],
-			ignoreHTTPSErrors: true,
 		},
 	});
 
@@ -36,16 +31,13 @@ export default class ChatBot {
 			return;
 		}
 
-		if (this.client.pupPage) await this.client.destroy();
 		this.startChatBot(socket);
 	}
 
 	private startChatBot(socket: SocketType) {
 		this.client
 			.initialize()
-			.then(() => console.log("Sucesso ao abrir chrome"))
 			.catch((err) => {
-				console.log(err);
 				logger.error(err.message, {
 					date: new Date().toLocaleString(),
 				});
@@ -61,17 +53,6 @@ export default class ChatBot {
 			logger.info("Chat bot authenticated", {
 				date: new Date().toLocaleString(),
 			});
-
-			sessionCfg = session;
-			fs.writeFile(
-				"session.json",
-				JSON.stringify(session),
-				(err) =>
-					err ??
-					logger.error("Error to create session file", {
-						date: new Date().toLocaleString(),
-					})
-			);
 
 			this.status = "autenticado";
 			socket.emit("status", this.status);
