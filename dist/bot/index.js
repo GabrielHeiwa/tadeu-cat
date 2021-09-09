@@ -49,7 +49,7 @@ var ChatBot = /** @class */ (function () {
         this.status = "ChatBot ainda não autenticado com o whatsapp web";
         this.client = new whatsapp_web_js_1.Client({
             qrTimeoutMs: 0,
-            puppeteer: { args: ["--no-sandbox", "--disable-setuid-sandbox"] },
+            puppeteer: { args: ['--disable-setuid-sandbox', '--no-sandbox', "--disable-extensions"] },
         });
     }
     ChatBot.prototype.pair = function (socket) {
