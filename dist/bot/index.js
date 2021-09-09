@@ -54,7 +54,7 @@ var ChatBot = /** @class */ (function () {
             session: sessionCfg,
             qrTimeoutMs: 0,
             puppeteer: {
-                headless: false,
+                args: ['--no-sandbox', '--disable-setuid-sandbox']
             },
         });
         this.count = 2;

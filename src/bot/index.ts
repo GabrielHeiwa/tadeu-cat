@@ -18,9 +18,6 @@ export default class ChatBot {
 	private client: Client = new Client({
 		session: sessionCfg,
 		qrTimeoutMs: 0,
-		puppeteer: {
-			headless: false,
-		},
 	});
 
 	private count: number = 2
