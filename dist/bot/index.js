@@ -13,7 +13,13 @@ class ChatBot {
         this.status = "ChatBot ainda não autenticado com o whatsapp web";
         this.client = new whatsapp_web_js_1.Client({
             qrTimeoutMs: 0,
-            puppeteer: { args: ['--disable-setuid-sandbox', '--no-sandbox', "--disable-extensions"] },
+            puppeteer: {
+                args: [
+                    "--disable-setuid-sandbox",
+                    "--no-sandbox",
+                    "--disable-extensions",
+                ],
+            },
         });
     }
     async pair(socket) {
