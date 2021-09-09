@@ -37,11 +37,11 @@ export default class ChatBot {
 	private startChatBot(socket: SocketType) {
 		this.client
 			.initialize()
-			.catch((err) => {
-				logger.error(err.message, {
-					date: new Date().toLocaleString(),
-				});
-			});
+			// .catch((err) => {
+			// 	logger.error(err.message, {
+			// 		date: new Date().toLocaleString(),
+			// 	});
+			// });
 
 		this.client.on("qr", async (qr) => {
 			console.log("Enviando qrcode");

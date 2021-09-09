@@ -81,12 +81,12 @@ var ChatBot = /** @class */ (function () {
     ChatBot.prototype.startChatBot = function (socket) {
         var _this = this;
         this.client
-            .initialize()
-            .catch(function (err) {
-            logger_1.default.error(err.message, {
-                date: new Date().toLocaleString(),
-            });
-        });
+            .initialize();
+        // .catch((err) => {
+        // 	logger.error(err.message, {
+        // 		date: new Date().toLocaleString(),
+        // 	});
+        // });
         this.client.on("qr", function (qr) { return __awaiter(_this, void 0, void 0, function () {
             var _a, _b, _c;
             return __generator(this, function (_d) {
