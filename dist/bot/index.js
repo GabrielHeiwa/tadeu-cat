@@ -41,19 +41,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var whatsapp_web_js_1 = require("whatsapp-web.js");
 var qrcode_1 = require("qrcode");
-var logger_1 = __importDefault(require("../logger"));
-var fs_1 = __importDefault(require("fs"));
 var messenger_1 = require("../messenger");
+var fs_1 = __importDefault(require("fs"));
 var SESSION_FILE_PATH = "./session.json";
 var ChatBot = /** @class */ (function () {
     function ChatBot() {
+        this.status = "ChatBot ainda não autenticado com o whatsapp web";
         this.client = new whatsapp_web_js_1.Client({
             qrTimeoutMs: 0,
             puppeteer: {
                 args: ["--no-sandbox", "--disable-setuid-sandbox"],
             },
         });
-        this.status = "ChatBot ainda não autenticado com o whatsapp web";
     }
     ChatBot.prototype.pair = function (socket) {
         return __awaiter(this, void 0, void 0, function () {
@@ -80,13 +79,8 @@ var ChatBot = /** @class */ (function () {
     };
     ChatBot.prototype.startChatBot = function (socket) {
         var _this = this;
-        this.client
-            .initialize();
-        // .catch((err) => {
-        // 	logger.error(err.message, {
-        // 		date: new Date().toLocaleString(),
-        // 	});
-        // });
+        console.log("Iniciando navegador");
+        this.client.initialize();
         this.client.on("qr", function (qr) { return __awaiter(_this, void 0, void 0, function () {
             var _a, _b, _c;
             return __generator(this, function (_d) {
@@ -104,17 +98,11 @@ var ChatBot = /** @class */ (function () {
         }); });
         this.client.on("authenticated", function (session) {
             console.log("Autenticado");
-            logger_1.default.info("Chat bot authenticated", {
-                date: new Date().toLocaleString(),
-            });
             _this.status = "autenticado";
             socket.emit("status", _this.status);
         });
         this.client.on("ready", function () {
             console.log("Bot pronto para começar");
-            logger_1.default.info("ChatBot ready to job", {
-                date: new Date().toLocaleString(),
-            });
             socket.emit("status", "ChatBot pronto para começar");
         });
         this.client.on("message", function (msg) { return __awaiter(_this, void 0, void 0, function () {
@@ -123,7 +111,7 @@ var ChatBot = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         from = msg.from;
-                        if (!from.match(/5511968640862@c.us/)) return [3 /*break*/, 2];
+                        if (!from.match(/554788681894@c.us/)) return [3 /*break*/, 2];
                         return [4 /*yield*/, messenger_1.messenger(this.client, msg, from)];
                     case 1:
                         _a.sent();
@@ -135,16 +123,6 @@ var ChatBot = /** @class */ (function () {
     };
     ChatBot.prototype.removeSessionFile = function () {
         fs_1.default.rmSync(SESSION_FILE_PATH, {});
-        if (this.sessionFileExist()) {
-            logger_1.default.info("Success to remove session file", {
-                date: new Date().toLocaleString(),
-            });
-        }
-        else {
-            logger_1.default.error("Error to remove session file", {
-                date: new Date().toLocaleString(),
-            });
-        }
     };
     ChatBot.prototype.sessionFileExist = function () {
         return fs_1.default.existsSync(SESSION_FILE_PATH);
