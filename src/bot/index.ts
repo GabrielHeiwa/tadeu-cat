@@ -27,6 +27,8 @@ export default class ChatBot {
 	public status: string = "ChatBot ainda não autenticado com o whatsapp web";
 
 	public async pair(socket: SocketType) {
+		console.log("Solicitação de pareamento recebida");
+
 		if (this.sessionFileExist()) {
 			if (this.client.pupPage) await this.client.destroy();
 			this.removeSessionFile();
@@ -41,15 +43,18 @@ export default class ChatBot {
 	private startChatBot(socket: SocketType) {
 		this.client
 			.initialize()
+			.then(() => console.log("Sucesso ao abrir chrome"))
 			.catch((err) =>
-				logger.error(err, { date: new Date().toLocaleString() })
+				logger.error(err.message, { date: new Date().toLocaleString() })
 			);
 
-		this.client.on("qr", async (qr) =>
-			socket.emit("qr", await toDataURL(qr))
-		);
+		this.client.on("qr", async (qr) => {
+			console.log("Enviando qrcode");
+			socket.emit("qr", await toDataURL(qr));
+		});
 
 		this.client.on("authenticated", (session) => {
+			console.log("Autenticado");
 			logger.info("Chat bot authenticated", {
 				date: new Date().toLocaleString(),
 			});
@@ -70,6 +75,7 @@ export default class ChatBot {
 		});
 
 		this.client.on("ready", () => {
+			console.log("Bot pronto para começar");
 			logger.info("ChatBot ready to job", {
 				date: new Date().toLocaleString(),
 			});

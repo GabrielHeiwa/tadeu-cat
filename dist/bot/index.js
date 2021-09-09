@@ -65,6 +65,7 @@ var ChatBot = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        console.log("Solicitação de pareamento recebida");
                         if (!this.sessionFileExist()) return [3 /*break*/, 3];
                         if (!this.client.pupPage) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.client.destroy()];
@@ -92,19 +93,27 @@ var ChatBot = /** @class */ (function () {
         var _this = this;
         this.client
             .initialize()
+            .then(function () { return console.log("Sucesso ao abrir chrome"); })
             .catch(function (err) {
-            return logger_1.default.error(err, { date: new Date().toLocaleString() });
+            return logger_1.default.error(err.message, { date: new Date().toLocaleString() });
         });
-        this.client.on("qr", function (qr) { return __awaiter(_this, void 0, void 0, function () { var _a, _b, _c; return __generator(this, function (_d) {
-            switch (_d.label) {
-                case 0:
-                    _b = (_a = socket).emit;
-                    _c = ["qr"];
-                    return [4 /*yield*/, qrcode_1.toDataURL(qr)];
-                case 1: return [2 /*return*/, _b.apply(_a, _c.concat([_d.sent()]))];
-            }
-        }); }); });
+        this.client.on("qr", function (qr) { return __awaiter(_this, void 0, void 0, function () {
+            var _a, _b, _c;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        console.log("Enviando qrcode");
+                        _b = (_a = socket).emit;
+                        _c = ["qr"];
+                        return [4 /*yield*/, qrcode_1.toDataURL(qr)];
+                    case 1:
+                        _b.apply(_a, _c.concat([_d.sent()]));
+                        return [2 /*return*/];
+                }
+            });
+        }); });
         this.client.on("authenticated", function (session) {
+            console.log("Autenticado");
             logger_1.default.info("Chat bot authenticated", {
                 date: new Date().toLocaleString(),
             });
@@ -118,6 +127,7 @@ var ChatBot = /** @class */ (function () {
             socket.emit("status", _this.status);
         });
         this.client.on("ready", function () {
+            console.log("Bot pronto para começar");
             logger_1.default.info("ChatBot ready to job", {
                 date: new Date().toLocaleString(),
             });
