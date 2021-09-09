@@ -27,9 +27,9 @@ const cats_vacines_file_path = resolve(
 	"assets",
 	"[gatos][vacinas].jpeg"
 );
-const destNumber = "5511968640862@c.us";
+const destNumber = "5511963118354@c.us";
 
-const aniamlSizeTypes = ["Grande", "Médio", "Pequeno"];
+const aniamlSizeTypes = ["Pequeno", "Médio", "Grande"];
 const groomTypes = ["Higiênica", "Completa"];
 
 function addDays(days: number) {
@@ -133,7 +133,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 			// Castration with take back service
 			case "1111":
 			case "1211":
-				schedule[`${number}`].resume += "Serviço leva e trás aceito \n";
+				schedule[`${number}`].resume += "Serviço leva e traz aceito \n";
 				schedule[`${number}`].historico.push("take_back_service");
 				schedule[`${number}`].address = true;
 
@@ -146,7 +146,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 			case "1212":
 				await client.sendMessage(number, menuFinish());
 
-				schedule[`${number}`].resume += "Serviço leva e trás negado.\n";
+				schedule[`${number}`].resume += "Serviço leva e traz negado.\n";
 				schedule[`${number}`].complete = true;
 
 				await completeConversation(
@@ -188,7 +188,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 			// Vacines with take back service
 			case "1121":
 			case "1221":
-				schedule[`${number}`].resume += "Serviço leva e trás aceito \n";
+				schedule[`${number}`].resume += "Serviço leva e traz aceito \n";
 				schedule[`${number}`].historico.push("take_back_service");
 				schedule[`${number}`].address = true;
 
@@ -201,7 +201,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 			case "1222":
 				await client.sendMessage(number, menuFinish());
 
-				schedule[`${number}`].resume += "Serviço leva e trás negado.\n";
+				schedule[`${number}`].resume += "Serviço leva e traz negado.\n";
 				schedule[`${number}`].complete = true;
 
 				await completeConversation(
@@ -217,7 +217,9 @@ export async function messenger(client: Client, msg: Message, number: string) {
 				schedule[`${number}`].resume += "Banho e tosa\n";
 				schedule[`${number}`].historico.push("bath_and_groom");
 
-				await client.sendMessage(number, menu_shower());
+				schedule[`${number}`].historico.includes("cats") ? 
+					await client.sendMessage(number, menu_shower("cat")) :
+					await client.sendMessage(number, menu_shower("dog"));
 
 				break;
 
@@ -268,7 +270,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 			case "123121":
 			case "123221":
 			case "123221":
-				schedule[`${number}`].resume += "Serviço leva e trás\n";
+				schedule[`${number}`].resume += "Serviço leva e traz\n";
 				schedule[`${number}`].historico.push("take_back_service");
 				schedule[`${number}`].address = true;
 
@@ -290,7 +292,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 			case "123222":
 				await client.sendMessage(number, menuFinish());
 
-				schedule[`${number}`].resume += "Serviço leva e trás negado.\n";
+				schedule[`${number}`].resume += "Serviço leva e traz negado.\n";
 				schedule[`${number}`].complete = true;
 
 				await completeConversation(
@@ -314,7 +316,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 			// Consults with take back service
 			case "1141":
 			case "1241":
-				schedule[`${number}`].resume += "Serviço leva e trás\n";
+				schedule[`${number}`].resume += "Serviço leva e traz\n";
 				schedule[`${number}`].historico.push("take_back_service");
 				schedule[`${number}`].address = true;
 
@@ -326,7 +328,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 			case "1242":
 				await client.sendMessage(number, menuFinish());
 
-				schedule[`${number}`].resume += "Serviço leva e trás nagado.\n";
+				schedule[`${number}`].resume += "Serviço leva e traz nagado.\n";
 				schedule[`${number}`].complete = true;
 
 				await completeConversation(
@@ -339,7 +341,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 			// General Surgery
 			case "115":
 			case "125":
-				schedule[`${number}`].resume += "Cirurgias Gerias.\n";
+				schedule[`${number}`].resume += "Cirurgias Gerais.\n";
 				schedule[`${number}`].historico.push("general_surgery");
 
 				await client.sendMessage(number, menuGeneralSurgery());
@@ -358,7 +360,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 			// General surgery animal hospitalized with take back service
 			case "11511":
 				schedule[`${number}`].address = true;
-				schedule[`${number}`].resume += "Serviço leva e trás\n";
+				schedule[`${number}`].resume += "Serviço leva e traz\n";
 				schedule[`${number}`].historico.push("take_back_service");
 
 				await client.sendMessage(number, menu_go_to_back_answer());
@@ -368,7 +370,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 			case "11512":
 				schedule[
 					`${number}`
-				].resume += `Serviço de leva e trás negado.\n`;
+				].resume += `Serviço de leva e traz negado.\n`;
 				schedule[
 					`${number}`
 				].resume += `Conversa completa as ${new Date().toLocaleString()}`;
@@ -396,7 +398,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 			// General surgery with take back service
 			case "11521":
 			case "12521":
-				schedule[`${number}`].resume += "Serviço leva e trás\n";
+				schedule[`${number}`].resume += "Serviço leva e traz\n";
 				schedule[`${number}`].historico.push("take_back_service");
 				await client.sendMessage(number, menu_go_to_back_answer());
 
@@ -406,7 +408,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 			// General surgery without take back service
 			case "11522":
 			case "12522":
-				schedule[`${number}`].resume += `Sem serviço de leva e trás\n`;
+				schedule[`${number}`].resume += `Sem serviço de leva e traz\n`;
 				schedule[
 					`${number}`
 				].resume += `Conversa completa as ${new Date().toLocaleString()}`;
@@ -663,7 +665,7 @@ function menu_secundary() {
 	message += "2 - Vacinas\n";
 	message += "3 - Banho e tosa\n";
 	message += "4 - Consultas\n";
-	message += "5 - Cirurgia gerais\n\n";
+	message += "5 - Cirurgias gerais\n\n";
 	message += "Digite 0 para encerrar a conversa.";
 
 	return message;
@@ -684,12 +686,18 @@ function menu_go_to_back_answer() {
 	return message;
 }
 
-function menu_shower() {
-	let message =
-		"Agora por favor poderia nos informar o porte do seu cachorro:\n";
-	message += "1 - Grande (acima de 30kg)\n";
-	message += "2 - Médio (entre 15 e 30 quilos)\n";
-	message += "3 - Pequeno (abaixo de 15 quilos)\n\n";
+function menu_shower(type: "cat" | "dog") {
+	let message = "Agora por favor poderia nos informar o porte do seu cachorro:\n";
+
+	if (type === "cat") {
+		message += "1 - pequeno: até 2 kg\n";
+		message += "2 - médio: 3 a 5kg\n";
+		message += "3 - grande: acima de 6kg\n\n";
+	} else if (type === "dog") {
+		message += "1 - pequeno: até 6kg\n";
+		message += "2 - médio: 7 a 15kg\n";
+		message += "3 -grande: acima de 15kg\n\n"
+	}
 
 	message += "Digite 0 para encerrar a conversa aqui caso queira.";
 

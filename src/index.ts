@@ -18,7 +18,6 @@ app.get("/3821c8bb9990e92045d0116f5a45242e", (_, res) => res.sendFile(INDEX_FILE
 const server = createServer(app);
 export const socket = new Server(server, { cors: { origin: "*" } });
 
-
 socket.on("connection", socket => {
     console.log(`Socket connected: ${socket.id}`);
 
