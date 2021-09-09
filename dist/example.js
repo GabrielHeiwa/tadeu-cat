@@ -7,5 +7,10 @@ const client = new whatsapp_web_js_1.Client({
         args: ["--no-sandbox", '--disable-setuid-sandbox']
     }
 });
-client.initialize();
-client.on("qr", qr => qrcode_terminal_1.generate(qr));
+try {
+    client.initialize();
+    client.on("qr", qr => qrcode_terminal_1.generate(qr));
+}
+catch (err) {
+    console.error(err);
+}
