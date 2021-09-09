@@ -54,7 +54,7 @@ var ChatBot = /** @class */ (function () {
             session: sessionCfg,
             qrTimeoutMs: 0,
             puppeteer: {
-                args: ["--disable-setuid-sandbox"],
+                args: ["--no-sandbox", "--disable-setuid-sandbox"],
                 ignoreHTTPSErrors: true,
             },
         });
@@ -95,7 +95,10 @@ var ChatBot = /** @class */ (function () {
             .initialize()
             .then(function () { return console.log("Sucesso ao abrir chrome"); })
             .catch(function (err) {
-            return logger_1.default.error(err.message, { date: new Date().toLocaleString() });
+            console.log(err);
+            logger_1.default.error(err.message, {
+                date: new Date().toLocaleString(),
+            });
         });
         this.client.on("qr", function (qr) { return __awaiter(_this, void 0, void 0, function () {
             var _a, _b, _c;

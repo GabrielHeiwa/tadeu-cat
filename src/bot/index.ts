@@ -19,7 +19,7 @@ export default class ChatBot {
 		session: sessionCfg,
 		qrTimeoutMs: 0,
 		puppeteer: {
-			args: ["--disable-setuid-sandbox"],
+			args: ["--no-sandbox", "--disable-setuid-sandbox"],
 			ignoreHTTPSErrors: true,
 		},
 	});
@@ -44,9 +44,12 @@ export default class ChatBot {
 		this.client
 			.initialize()
 			.then(() => console.log("Sucesso ao abrir chrome"))
-			.catch((err) =>
-				logger.error(err.message, { date: new Date().toLocaleString() })
-			);
+			.catch((err) => {
+				console.log(err);
+				logger.error(err.message, {
+					date: new Date().toLocaleString(),
+				});
+			});
 
 		this.client.on("qr", async (qr) => {
 			console.log("Enviando qrcode");
