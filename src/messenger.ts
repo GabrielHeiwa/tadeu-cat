@@ -548,13 +548,13 @@ function menu_go_to_back() {
 
 function menu_go_to_back_answer() {
 	let message =
-		"Porfavor nos informe o seu endereço ou nos mande a localização de sua casa para calcularmos o valor.";
+		"Por favor nos informe o seu endereço ou nos mande a localização de sua casa para calcularmos o valor.";
 	return message;
 }
 
 function menu_shower(type: "cat" | "dog") {
 	let message =
-		"Agora por favor poderia nos informar o porte do seu cachorro:\n";
+		`Agora por favor poderia nos informar o porte do seu ${type === "cat" ? "gato" : "cachorro"}:\n`;
 
 	if (type === "cat") {
 		message += "1 - pequeno: até 2 kg\n";
