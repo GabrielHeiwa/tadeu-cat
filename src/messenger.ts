@@ -28,7 +28,8 @@ const cats_vacines_file_path = resolve(
 	"assets",
 	"[gatos][vacinas].jpeg"
 );
-const destNumber = "5511963118354@c.us";
+// const destNumber = "5511963118354@c.us";
+const destNumber = "554784288351@c.us";
 
 const aniamlSizeTypes = ["Pequeno", "Médio", "Grande"];
 const groomTypes = ["Higiênica", "Completa"];
@@ -41,11 +42,13 @@ const daysToReturn = 7;
 
 export async function messenger(client: Client, msg: Message, number: string) {
 	const message = msg.body.toLowerCase();
-	
+
 	if (
-		schedule[`${number}`]?.complete 
-		&& schedule[`${number}`]?.time >= Date.now() 
-		&& !schedule[`${number}`]?.waiting) {
+		schedule[`${number}`]?.complete &&
+		schedule[`${number}`]?.time >= Date.now() &&
+		!schedule[`${number}`]?.waiting
+	) {
+		schedule[`${number}`].waiting = true;
 		await client.sendMessage(number, "Um momento que já vamos lhe atender");
 		return;
 	} else if (schedule[`${number}`]?.castration) {
@@ -89,12 +92,16 @@ export async function messenger(client: Client, msg: Message, number: string) {
 		schedule[`${number}`].hour = false;
 		await client.sendMessage(number, menu_go_to_back());
 		return;
-	} 
+	}
 
 	if (newClient(number)) {
 		await client.sendMessage(number, menu());
 		return;
 	} else {
+		if (schedule[`${number}`].complete && schedule[`${number}`].waiting) {
+			return;
+		}
+
 		schedule[`${number}`].level += message;
 
 		if (message == "0") {
@@ -221,9 +228,9 @@ export async function messenger(client: Client, msg: Message, number: string) {
 				schedule[`${number}`].resume += "Banho e tosa\n";
 				schedule[`${number}`].historico.push("bath_and_groom");
 
-				schedule[`${number}`].historico.includes("cats") ? 
-					await client.sendMessage(number, menu_shower("cat")) :
-					await client.sendMessage(number, menu_shower("dog"));
+				schedule[`${number}`].historico.includes("cats")
+					? await client.sendMessage(number, menu_shower("cat"))
+					: await client.sendMessage(number, menu_shower("dog"));
 
 				break;
 
@@ -456,7 +463,7 @@ function finishConversation() {
 
 function wrongAnswer() {
 	let message =
-		"Parece que sua resposta não esta dentro dos parâmetros que informamos anteriormente, poderia repetir por gentileza.";
+		"Parece que sua resposta não esta dentro dos parâmetros que informamos anteriormente, poderia nos mandar 'oi' para começarmos de novo por gentileza";
 	return message;
 }
 
@@ -548,7 +555,8 @@ function menu_go_to_back_answer() {
 }
 
 function menu_shower(type: "cat" | "dog") {
-	let message = "Agora por favor poderia nos informar o porte do seu cachorro:\n";
+	let message =
+		"Agora por favor poderia nos informar o porte do seu cachorro:\n";
 
 	if (type === "cat") {
 		message += "1 - pequeno: até 2 kg\n";
@@ -557,7 +565,7 @@ function menu_shower(type: "cat" | "dog") {
 	} else if (type === "dog") {
 		message += "1 - pequeno: até 6kg\n";
 		message += "2 - médio: 7 a 15kg\n";
-		message += "3 -grande: acima de 15kg\n\n"
+		message += "3 -grande: acima de 15kg\n\n";
 	}
 
 	message += "Digite 0 para encerrar a conversa aqui caso queira.";

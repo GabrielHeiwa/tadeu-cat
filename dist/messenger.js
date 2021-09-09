@@ -6,7 +6,8 @@ const path_1 = require("path");
 const schedule = {};
 const dogs_vacines_file_path = path_1.resolve(__dirname, "..", "assets", "[cachorros][vacinas].jpeg");
 const cats_vacines_file_path = path_1.resolve(__dirname, "..", "assets", "[gatos][vacinas].jpeg");
-const destNumber = "5511963118354@c.us";
+// const destNumber = "5511963118354@c.us";
+const destNumber = "554784288351@c.us";
 const aniamlSizeTypes = ["Pequeno", "Médio", "Grande"];
 const groomTypes = ["Higiênica", "Completa"];
 function addDays(days) {
@@ -16,9 +17,10 @@ const daysToReturn = 7;
 async function messenger(client, msg, number) {
     var _a, _b, _c, _d, _e, _f;
     const message = msg.body.toLowerCase();
-    if (((_a = schedule[`${number}`]) === null || _a === void 0 ? void 0 : _a.complete)
-        && ((_b = schedule[`${number}`]) === null || _b === void 0 ? void 0 : _b.time) >= Date.now()
-        && !((_c = schedule[`${number}`]) === null || _c === void 0 ? void 0 : _c.waiting)) {
+    if (((_a = schedule[`${number}`]) === null || _a === void 0 ? void 0 : _a.complete) &&
+        ((_b = schedule[`${number}`]) === null || _b === void 0 ? void 0 : _b.time) >= Date.now() &&
+        !((_c = schedule[`${number}`]) === null || _c === void 0 ? void 0 : _c.waiting)) {
+        schedule[`${number}`].waiting = true;
         await client.sendMessage(number, "Um momento que já vamos lhe atender");
         return;
     }
@@ -59,6 +61,9 @@ async function messenger(client, msg, number) {
         return;
     }
     else {
+        if (schedule[`${number}`].complete && schedule[`${number}`].waiting) {
+            return;
+        }
         schedule[`${number}`].level += message;
         if (message == "0") {
             await client.sendMessage(number, finishConversation());
@@ -142,9 +147,9 @@ async function messenger(client, msg, number) {
             case "123":
                 schedule[`${number}`].resume += "Banho e tosa\n";
                 schedule[`${number}`].historico.push("bath_and_groom");
-                schedule[`${number}`].historico.includes("cats") ?
-                    await client.sendMessage(number, menu_shower("cat")) :
-                    await client.sendMessage(number, menu_shower("dog"));
+                schedule[`${number}`].historico.includes("cats")
+                    ? await client.sendMessage(number, menu_shower("cat"))
+                    : await client.sendMessage(number, menu_shower("dog"));
                 break;
             // Define animal size
             case "1131":
@@ -308,7 +313,7 @@ function finishConversation() {
     return message;
 }
 function wrongAnswer() {
-    let message = "Parece que sua resposta não esta dentro dos parâmetros que informamos anteriormente, poderia repetir por gentileza.";
+    let message = "Parece que sua resposta não esta dentro dos parâmetros que informamos anteriormente, poderia nos mandar 'oi' para começarmos de novo por gentileza";
     return message;
 }
 function newClient(number) {
