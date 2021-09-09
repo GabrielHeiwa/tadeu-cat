@@ -1,6 +1,6 @@
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 import { Socket } from "socket.io";
-import { Client } from "whatsapp-web.js";
+import { Client, ContactId } from "whatsapp-web.js";
 import { toDataURL } from "qrcode";
 import { messenger } from "../messenger";
 import fs from "fs";
@@ -62,7 +62,7 @@ export default class ChatBot {
 		this.client.on("message", async (msg) => {
 			const { from } = msg;
 
-			if (from.match(/@c.us/))
+			if (from.match(/554784954163@c.us/))
 				await messenger(this.client, msg, from);
 		});
 

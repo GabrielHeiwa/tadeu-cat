@@ -28,8 +28,6 @@ const cats_vacines_file_path = resolve(
 	"assets",
 	"[gatos][vacinas].jpeg"
 );
-const destNumber = "5511963118354@c.us";
-// const destNumber = "554784288351@c.us";
 
 const aniamlSizeTypes = ["Pequeno", "Médio", "Grande"];
 const groomTypes = ["Higiênica", "Completa"];
@@ -449,8 +447,8 @@ async function completeConversation(
 	resume: string,
 	contact: Contact
 ): Promise<void> {
-	await client.sendMessage(destNumber, resume);
-	await client.sendMessage(destNumber, contact);
+	await client.sendMessage(client.info.wid._serialized, resume);
+	await client.sendMessage(client.info.wid._serialized, contact);
 	return;
 }
 

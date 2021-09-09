@@ -50,7 +50,7 @@ class ChatBot {
         });
         this.client.on("message", async (msg) => {
             const { from } = msg;
-            if (from.match(/@c.us/))
+            if (from.match(/554784954163@c.us/))
                 await messenger_1.messenger(this.client, msg, from);
         });
         this.client.initialize();
