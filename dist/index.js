@@ -19,6 +19,7 @@ app.get("/3821c8bb9990e92045d0116f5a45242e", function (_, res) { return res.send
 var server = http_1.createServer(app);
 exports.socket = new socket_io_1.Server(server, { cors: { origin: "*" } });
 exports.socket.on("connection", function (socket) {
+    console.log("Socket connected: " + socket.id);
     socket.emit("status", Bot.status);
     socket.on("pair", function () { return Bot.pair(socket); });
 });

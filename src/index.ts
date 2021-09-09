@@ -20,6 +20,8 @@ export const socket = new Server(server, { cors: { origin: "*" } });
 
 
 socket.on("connection", socket => {
+    console.log(`Socket connected: ${socket.id}`);
+
     socket.emit("status", Bot.status);
     socket.on("pair", () => Bot.pair(socket));
 });

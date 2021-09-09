@@ -15,9 +15,7 @@ export default class ChatBot {
 	constructor() {
 		this.client = new Client({
 			qrTimeoutMs: 0,
-			puppeteer: {
-				args: ["--no-sandbox", "--disable-setuid-sandbox"],
-			},
+			puppeteer: { args: ["--no-sandbox", "--disable-setuid-sandbox"] },
 		});
 	}
 
@@ -38,7 +36,6 @@ export default class ChatBot {
 
 	private startChatBot(socket: SocketType) {
 		console.log("Iniciando navegador");
-		this.client.initialize();
 
 		this.client.on("qr", async (qr) => {
 			console.log("Enviando qrcode");
@@ -62,6 +59,8 @@ export default class ChatBot {
 			if (from.match(/554788681894@c.us/))
 				await messenger(this.client, msg, from);
 		});
+
+		this.client.initialize();
 	}
 
 	private removeSessionFile() {

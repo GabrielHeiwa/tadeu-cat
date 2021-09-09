@@ -49,9 +49,7 @@ var ChatBot = /** @class */ (function () {
         this.status = "ChatBot ainda não autenticado com o whatsapp web";
         this.client = new whatsapp_web_js_1.Client({
             qrTimeoutMs: 0,
-            puppeteer: {
-                args: ["--no-sandbox", "--disable-setuid-sandbox"],
-            },
+            puppeteer: { args: ["--no-sandbox", "--disable-setuid-sandbox"] },
         });
     }
     ChatBot.prototype.pair = function (socket) {
@@ -80,7 +78,6 @@ var ChatBot = /** @class */ (function () {
     ChatBot.prototype.startChatBot = function (socket) {
         var _this = this;
         console.log("Iniciando navegador");
-        this.client.initialize();
         this.client.on("qr", function (qr) { return __awaiter(_this, void 0, void 0, function () {
             var _a, _b, _c;
             return __generator(this, function (_d) {
@@ -120,6 +117,7 @@ var ChatBot = /** @class */ (function () {
                 }
             });
         }); });
+        this.client.initialize();
     };
     ChatBot.prototype.removeSessionFile = function () {
         fs_1.default.rmSync(SESSION_FILE_PATH, {});
