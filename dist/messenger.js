@@ -326,7 +326,7 @@ function newClient(number) {
                 address: false,
                 hour: false,
                 number,
-                resume: `Inicio ${(new Date().getTime() - 1000 * 60 * 60 * 3).toLocaleString()}\n\n`,
+                resume: `Inicio ${new Date().toLocaleString("pt-br", { hour12: false })}\n\n`,
                 historico: ["start"],
                 time: addDays(daysToReturn),
             };
@@ -345,7 +345,7 @@ function newClient(number) {
             address: false,
             hour: false,
             number,
-            resume: `Inicio ${new Date().toLocaleString()}\n\n`,
+            resume: `Inicio ${new Date().toLocaleString("pt-br", { hour12: false })}\n\n`,
             historico: ["start"],
             time: addDays(daysToReturn),
         };
