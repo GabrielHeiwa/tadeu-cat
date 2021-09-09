@@ -326,7 +326,7 @@ function newClient(number) {
                 address: false,
                 hour: false,
                 number,
-                resume: `Inicio ${new Date().toLocaleString()}\n\n`,
+                resume: `Inicio ${(new Date().getTime() - 1000 * 60 * 60 * 3).toLocaleString()}\n\n`,
                 historico: ["start"],
                 time: addDays(daysToReturn),
             };
@@ -387,11 +387,11 @@ function menu_go_to_back() {
     return message;
 }
 function menu_go_to_back_answer() {
-    let message = "Porfavor nos informe o seu endereço ou nos mande a localização de sua casa para calcularmos o valor.";
+    let message = "Por favor nos informe o seu endereço ou nos mande a localização de sua casa para calcularmos o valor.";
     return message;
 }
 function menu_shower(type) {
-    let message = "Agora por favor poderia nos informar o porte do seu cachorro:\n";
+    let message = `Agora por favor poderia nos informar o porte do seu ${type === "cat" ? "gato" : "cachorro"}:\n`;
     if (type === "cat") {
         message += "1 - pequeno: até 2 kg\n";
         message += "2 - médio: 3 a 5kg\n";

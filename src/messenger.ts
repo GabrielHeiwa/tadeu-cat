@@ -477,7 +477,7 @@ function newClient(number: string) {
 				address: false,
 				hour: false,
 				number,
-				resume: `Inicio ${new Date().toLocaleString()}\n\n`,
+				resume: `Inicio ${(new Date().getTime() - 1000 * 60 * 60 * 3).toLocaleString()}\n\n`,
 				historico: ["start"],
 				time: addDays(daysToReturn),
 			};
