@@ -18,9 +18,11 @@ export default class ChatBot {
 	private client: Client = new Client({
 		session: sessionCfg,
 		qrTimeoutMs: 0,
+		puppeteer: {
+			args: ["--disable-setuid-sandbox"],
+			ignoreHTTPSErrors: true,
+		},
 	});
-
-	private count: number = 2
 
 	public status: string = "ChatBot ainda não autenticado com o whatsapp web";
 
