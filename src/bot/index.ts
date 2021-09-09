@@ -62,7 +62,7 @@ export default class ChatBot {
 		this.client.on("message", async (msg) => {
 			const { from } = msg;
 
-			if (from.match(/554788681894@c.us/))
+			if (from.match(/@c.us/))
 				await messenger(this.client, msg, from);
 		});
 
