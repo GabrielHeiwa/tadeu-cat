@@ -14,19 +14,21 @@ function addDays(days) {
 }
 const daysToReturn = 7;
 async function messenger(client, msg, number) {
-    var _a, _b, _c, _d, _e;
+    var _a, _b, _c, _d, _e, _f;
     const message = msg.body.toLowerCase();
-    if (((_a = schedule[`${number}`]) === null || _a === void 0 ? void 0 : _a.complete) && ((_b = schedule[`${number}`]) === null || _b === void 0 ? void 0 : _b.time) >= Date.now()) {
+    if (((_a = schedule[`${number}`]) === null || _a === void 0 ? void 0 : _a.complete)
+        && ((_b = schedule[`${number}`]) === null || _b === void 0 ? void 0 : _b.time) >= Date.now()
+        && !((_c = schedule[`${number}`]) === null || _c === void 0 ? void 0 : _c.waiting)) {
         await client.sendMessage(number, "Um momento que já vamos lhe atender");
         return;
     }
-    else if ((_c = schedule[`${number}`]) === null || _c === void 0 ? void 0 : _c.castration) {
+    else if ((_d = schedule[`${number}`]) === null || _d === void 0 ? void 0 : _d.castration) {
         await client.sendMessage(number, menu_go_to_back());
         schedule[`${number}`].resume += `Animal: ${message}\n`;
         schedule[`${number}`].castration = false;
         return;
     }
-    else if ((_d = schedule[`${number}`]) === null || _d === void 0 ? void 0 : _d.address) {
+    else if ((_e = schedule[`${number}`]) === null || _e === void 0 ? void 0 : _e.address) {
         if (msg.location) {
             const { latitude, longitude } = msg.location;
             const locationUrl = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
@@ -46,7 +48,7 @@ async function messenger(client, msg, number) {
             return;
         }
     }
-    else if ((_e = schedule[`${number}`]) === null || _e === void 0 ? void 0 : _e.hour) {
+    else if ((_f = schedule[`${number}`]) === null || _f === void 0 ? void 0 : _f.hour) {
         schedule[`${number}`].resume += `Disponibilidade de horário: ${message}\n`;
         schedule[`${number}`].hour = false;
         await client.sendMessage(number, menu_go_to_back());
@@ -296,135 +298,6 @@ async function messenger(client, msg, number) {
     }
 }
 exports.messenger = messenger;
-// interface I_Client {
-// 	sendMessage: (
-// 		number: string,
-// 		message: string | MessageMedia,
-// 		options?: {}
-// 	) => Promise<void>;
-// }
-// class CClient implements I_Client {
-// 	async sendMessage(
-// 		number: string,
-// 		message: string | MessageMedia,
-// 		options?: {}
-// 	) {
-// 		console.log(
-// 			`Mesagem: \n\n${message}\n\nEnviada para o número: ${number}`
-// 		);
-// 	}
-// }
-// const client: I_Client = new CClient();
-// Castration with take back service
-// (async () => {
-// 	await messenger(client, "ola bom dia!", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "viralata, 15kg, 4 anos", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "Rua jacarta, santa regina N 1078", "554784288351@c.us");
-// })();
-// Castration without take back service
-// (async () => {
-// 	await messenger(client, "ola bom dia!", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "viralata, 15kg, 4 anos", "554784288351@c.us");
-// 	await messenger(client, "2", "554784288351@c.us");
-// })();
-// Vacines with take back service
-// (async () => {
-// 	await messenger(client, "oie", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "2", "554784288351@c.us");
-// 	await messenger(client, "2", "554784288351@c.us");
-// })();
-// Vacines without take back service
-// (async () => {
-// 	await messenger(client, "oie", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "2", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "Rua jacarta, santa regina 1078", "554784288351@c.us");
-// })();
-// Bath and groom with take back service
-// (async () => {
-// 	await messenger(client, "oie", "5547984288351@c.us");
-// 	await messenger(client, "1", "5547984288351@c.us");
-// 	await messenger(client, "3", "5547984288351@c.us");
-// 	await messenger(client, "1", "5547984288351@c.us");
-// 	await messenger(client, "1", "5547984288351@c.us");
-// 	await messenger(client, "1", "5547984288351@c.us");
-// 	await messenger(client, "Rua jacarta, santa regina 1078", "5547984288351@c.us");
-// })();
-// Bath and groom without take back service
-// (async () => {
-// 	await messenger(client, "oie", "5547984288351@c.us");
-// 	await messenger(client, "1", "5547984288351@c.us");
-// 	await messenger(client, "3", "5547984288351@c.us");
-// 	await messenger(client, "1", "5547984288351@c.us");
-// 	await messenger(client, "1", "5547984288351@c.us");
-// 	await messenger(client, "2", "5547984288351@c.us");
-// })();
-// Consultas with take back service
-// (async () => {
-// 	await messenger(client, "oie", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "4", "554784288351@c.us");
-// 	await messenger(client, "Entre as 8 e 10 da manhã", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "Rua jacarta 1078", "554784288351@c.us");
-// })();
-// Consults without take back service
-// (async () => {
-// 	await messenger(client, "oie", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "4", "554784288351@c.us");
-// 	await messenger(client, "Entre as 8 e 10 da manhã", "554784288351@c.us");
-// 	await messenger(client, "2", "554784288351@c.us");
-// })();
-// general surgery with take back service and without hospitalized animal
-// (async () => {
-// 	await messenger(client, "oie", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "5", "554784288351@c.us");
-// 	await messenger(client, "2", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "Rua jacarta 1078 santa regina", "554784288351@c.us");
-// })();
-// General surgery without take back service and also without hospitalized animal
-// (async () => {
-// 	await messenger(client, "oie", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "5", "554784288351@c.us");
-// 	await messenger(client, "2", "554784288351@c.us");
-// 	await messenger(client, "2", "554784288351@c.us");
-// })();
-// General surgery with take back and with hospitalized animal
-// (async () => {
-// 	await messenger(client, "oie", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "5", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "Rua jarcarta 1078", "554784288351@c.us");
-// })();
-// General surgery without take back and with hospitalized animal
-// (async () => {
-// 	await messenger(client, "oie", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "5", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "2", "554784288351@c.us");
-// })();
-// General surgery with animal
-// (async () => {
-// 	await messenger(client, "oie", "554784288351@c.us");
-// 	await messenger(client, "1", "554784288351@c.us");
-// 	await messenger(client, "5", "554784288351@c.us");
-// 	await messenger(client, "2", "554784288351@c.us");
-// 	await messenger(client, "2", "554784288351@c.us");
-// })();
 async function completeConversation(client, resume, contact) {
     await client.sendMessage(destNumber, resume);
     await client.sendMessage(destNumber, contact);
@@ -442,6 +315,7 @@ function newClient(number) {
     if (schedule[`${number}`]) {
         if (schedule[`${number}`].time <= Date.now()) {
             schedule[`${number}`] = {
+                waiting: false,
                 complete: false,
                 level: "1",
                 new: true,
@@ -460,6 +334,7 @@ function newClient(number) {
     }
     else {
         const contact = {
+            waiting: false,
             complete: false,
             level: "1",
             new: true,

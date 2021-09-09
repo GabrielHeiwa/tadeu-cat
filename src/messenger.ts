@@ -12,6 +12,7 @@ interface I_number {
 	address: boolean;
 	hour: boolean;
 	time: number;
+	waiting: boolean;
 }
 
 const schedule: any = {};
@@ -41,7 +42,10 @@ const daysToReturn = 7;
 export async function messenger(client: Client, msg: Message, number: string) {
 	const message = msg.body.toLowerCase();
 	
-	if (schedule[`${number}`]?.complete && schedule[`${number}`]?.time >= Date.now()) {
+	if (
+		schedule[`${number}`]?.complete 
+		&& schedule[`${number}`]?.time >= Date.now() 
+		&& !schedule[`${number}`]?.waiting) {
 		await client.sendMessage(number, "Um momento que já vamos lhe atender");
 		return;
 	} else if (schedule[`${number}`]?.castration) {
@@ -460,6 +464,7 @@ function newClient(number: string) {
 	if (schedule[`${number}`]) {
 		if (schedule[`${number}`].time <= Date.now()) {
 			schedule[`${number}`] = {
+				waiting: false,
 				complete: false,
 				level: "1",
 				new: true,
@@ -478,6 +483,7 @@ function newClient(number: string) {
 		return false;
 	} else {
 		const contact: I_number = {
+			waiting: false,
 			complete: false,
 			level: "1",
 			new: true,
