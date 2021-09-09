@@ -6,8 +6,8 @@ const path_1 = require("path");
 const schedule = {};
 const dogs_vacines_file_path = path_1.resolve(__dirname, "..", "assets", "[cachorros][vacinas].jpeg");
 const cats_vacines_file_path = path_1.resolve(__dirname, "..", "assets", "[gatos][vacinas].jpeg");
-// const destNumber = "5511963118354@c.us";
-const destNumber = "554784288351@c.us";
+const destNumber = "5511963118354@c.us";
+// const destNumber = "554784288351@c.us";
 const aniamlSizeTypes = ["Pequeno", "Médio", "Grande"];
 const groomTypes = ["Higiênica", "Completa"];
 function addDays(days) {
