@@ -10,9 +10,10 @@ type SocketType = Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>;
 const SESSION_FILE_PATH = "./session.json";
 
 export default class ChatBot {
-	private client: Client;
+	public client: Client;
 
 	constructor() {
+		console.log("ChatBot Instanciado");
 		this.client = new Client({
 			qrTimeoutMs: 0,
 			puppeteer: {
@@ -29,26 +30,21 @@ export default class ChatBot {
 
 	public async pair(socket: SocketType) {
 		console.log("Solicitação de pareamento recebida");
-
-		if (this.sessionFileExist()) {
-			if (this.client.pupPage) await this.client.destroy();
-			this.removeSessionFile();
-			this.startChatBot(socket);
-			return;
-		}
-
 		this.startChatBot(socket);
 	}
 
 	private startChatBot(socket: SocketType) {
 		console.log("Iniciando navegador");
 
-		this.client.on("qr", async (qr) => {
-			console.log("Enviando qrcode");
-			socket.emit("qr", await toDataURL(qr));
-		});
+		this.client.initialize().catch(() => {});
 
-		this.client.on("authenticated", (session) => {
+		this.client.on("qr", async (qr) => {
+			console.log(`send qr code for: ${socket.id}`);
+			socket.emit("qr", await toDataURL(qr));
+		}
+		);
+
+		this.client.on("authenticated", (_) => {
 			console.log("Autenticado");
 			this.status = "autenticado";
 			socket.emit("status", this.status);
@@ -62,11 +58,8 @@ export default class ChatBot {
 		this.client.on("message", async (msg) => {
 			const { from } = msg;
 
-			if (from.match(/@c.us/))
-				await messenger(this.client, msg, from);
+			if (from.match(/@c.us/)) await messenger(this.client, msg, from);
 		});
-
-		this.client.initialize();
 	}
 
 	private removeSessionFile() {

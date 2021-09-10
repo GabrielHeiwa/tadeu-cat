@@ -11,6 +11,7 @@ const SESSION_FILE_PATH = "./session.json";
 class ChatBot {
     constructor() {
         this.status = "ChatBot ainda não autenticado com o whatsapp web";
+        console.log("ChatBot Instanciado");
         this.client = new whatsapp_web_js_1.Client({
             qrTimeoutMs: 0,
             puppeteer: {
@@ -24,22 +25,16 @@ class ChatBot {
     }
     async pair(socket) {
         console.log("Solicitação de pareamento recebida");
-        if (this.sessionFileExist()) {
-            if (this.client.pupPage)
-                await this.client.destroy();
-            this.removeSessionFile();
-            this.startChatBot(socket);
-            return;
-        }
         this.startChatBot(socket);
     }
     startChatBot(socket) {
         console.log("Iniciando navegador");
+        this.client.initialize().catch(() => { });
         this.client.on("qr", async (qr) => {
-            console.log("Enviando qrcode");
+            console.log(`send qr code for: ${socket.id}`);
             socket.emit("qr", await qrcode_1.toDataURL(qr));
         });
-        this.client.on("authenticated", (session) => {
+        this.client.on("authenticated", (_) => {
             console.log("Autenticado");
             this.status = "autenticado";
             socket.emit("status", this.status);
@@ -53,7 +48,6 @@ class ChatBot {
             if (from.match(/@c.us/))
                 await messenger_1.messenger(this.client, msg, from);
         });
-        this.client.initialize();
     }
     removeSessionFile() {
         fs_1.default.rmSync(SESSION_FILE_PATH, {});
