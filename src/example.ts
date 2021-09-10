@@ -9,9 +9,10 @@ try {
 		},
 	});
 
+	client.on("qr", (qr) => generate(qr, { small: true }));
+
 	client.initialize();
 
-	client.on("qr", (qr) => generate(qr, { small: true }));
 } catch (err) {
 	console.log(err);
 }

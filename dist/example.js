@@ -9,8 +9,8 @@ try {
             args: ["--disable-setuid-sandbox", "--no-sandbox"],
         },
     });
-    client.initialize();
     client.on("qr", (qr) => qrcode_terminal_1.generate(qr, { small: true }));
+    client.initialize();
 }
 catch (err) {
     console.log(err);
