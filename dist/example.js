@@ -4,6 +4,7 @@ const qrcode_terminal_1 = require("qrcode-terminal");
 const whatsapp_web_js_1 = require("whatsapp-web.js");
 try {
     const client = new whatsapp_web_js_1.Client({
+        qrTimeoutMs: 0,
         puppeteer: {
             headless: false,
             args: ["--disable-setuid-sandbox", "--no-sandbox"],
