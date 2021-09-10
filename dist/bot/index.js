@@ -15,7 +15,6 @@ class ChatBot {
         this.client = new whatsapp_web_js_1.Client({
             qrTimeoutMs: 0,
             puppeteer: {
-                headless: false,
                 args: [
                     "--disable-setuid-sandbox",
                     "--no-sandbox",
