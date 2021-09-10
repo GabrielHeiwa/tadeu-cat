@@ -17,7 +17,6 @@ export default class ChatBot {
 		this.client = new Client({
 			qrTimeoutMs: 0,
 			puppeteer: {
-				headless: false,
 				args: [
 					"--disable-setuid-sandbox",
 					"--no-sandbox",
