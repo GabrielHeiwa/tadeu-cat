@@ -15,7 +15,6 @@ export default class ChatBot {
 	constructor() {
 		console.log("ChatBot Instanciado");
 		this.client = new Client({
-			qrTimeoutMs: 0,
 			puppeteer: {
 				args: [
 					"--disable-setuid-sandbox",

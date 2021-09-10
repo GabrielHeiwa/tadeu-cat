@@ -1,8 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.messenger = void 0;
 const whatsapp_web_js_1 = require("whatsapp-web.js");
 const path_1 = require("path");
+const dayjs_1 = __importDefault(require("dayjs"));
 const schedule = {};
 const dogs_vacines_file_path = path_1.resolve(__dirname, "..", "assets", "[cachorros][vacinas].jpeg");
 const cats_vacines_file_path = path_1.resolve(__dirname, "..", "assets", "[gatos][vacinas].jpeg");
@@ -326,7 +330,7 @@ function newClient(number) {
                 address: false,
                 hour: false,
                 number,
-                resume: `Inicio ${new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(undefined, { hour12: false })}\n\n`,
+                resume: `Inicio ${dayjs_1.default(new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(undefined, { hour12: false }))}\n\n`,
                 historico: ["start"],
                 time: addDays(daysToReturn),
             };
@@ -345,7 +349,7 @@ function newClient(number) {
             address: false,
             hour: false,
             number,
-            resume: `Inicio ${new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(undefined, { hour12: false })}\n\n`,
+            resume: `Inicio ${dayjs_1.default(new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(undefined, { hour12: false })).format("DD/MM/YYYY - HH:mm")}\n\n`,
             historico: ["start"],
             time: addDays(daysToReturn),
         };

@@ -1,5 +1,6 @@
 import { Client, Contact, MessageMedia, Message } from "whatsapp-web.js";
 import { resolve } from "path";
+import dayJS from "dayjs";
 
 interface I_number {
 	number: string;
@@ -477,7 +478,12 @@ function newClient(number: string) {
 				address: false,
 				hour: false,
 				number,
-				resume: `Inicio ${new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(undefined, { hour12: false })}\n\n`,
+				resume: `Inicio ${dayJS(
+					new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(
+						undefined,
+						{ hour12: false }
+					)
+				)}\n\n`,
 				historico: ["start"],
 				time: addDays(daysToReturn),
 			};
@@ -496,7 +502,12 @@ function newClient(number: string) {
 			address: false,
 			hour: false,
 			number,
-			resume: `Inicio ${new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(undefined, { hour12: false })}\n\n`,
+			resume: `Inicio ${dayJS(
+				new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(
+					undefined,
+					{ hour12: false }
+				)
+			).format("DD/MM/YYYY - HH:mm")}\n\n`,
 			historico: ["start"],
 			time: addDays(daysToReturn),
 		};
@@ -553,8 +564,9 @@ function menu_go_to_back_answer() {
 }
 
 function menu_shower(type: "cat" | "dog") {
-	let message =
-		`Agora por favor poderia nos informar o porte do seu ${type === "cat" ? "gato" : "cachorro"}:\n`;
+	let message = `Agora por favor poderia nos informar o porte do seu ${
+		type === "cat" ? "gato" : "cachorro"
+	}:\n`;
 
 	if (type === "cat") {
 		message += "1 - pequeno: até 2 kg\n";

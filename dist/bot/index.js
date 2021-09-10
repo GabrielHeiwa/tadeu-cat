@@ -13,7 +13,6 @@ class ChatBot {
         this.status = "ChatBot ainda não autenticado com o whatsapp web";
         console.log("ChatBot Instanciado");
         this.client = new whatsapp_web_js_1.Client({
-            qrTimeoutMs: 0,
             puppeteer: {
                 args: [
                     "--disable-setuid-sandbox",
