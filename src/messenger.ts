@@ -334,6 +334,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 
 				break;
 
+			// Consults without take back service
 			case "1142":
 			case "1242":
 				await client.sendMessage(number, menuFinish());
@@ -369,6 +370,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 
 			// General surgery animal hospitalized with take back service
 			case "11511":
+			case "12511":
 				schedule[`${number}`].address = true;
 				schedule[`${number}`].resume += "Serviço leva e traz\n";
 				schedule[`${number}`].historico.push("take_back_service");
@@ -378,6 +380,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 
 			// General surgery animal hospitalized without take back service
 			case "11512":
+			case "12512":
 				schedule[
 					`${number}`
 				].resume += `Serviço de leva e traz negado.\n`;
@@ -417,7 +420,9 @@ export async function messenger(client: Client, msg: Message, number: string) {
 
 			// General surgery without take back service
 			case "11522":
+			case "11512":
 			case "12522":
+			case "12512":
 				schedule[`${number}`].resume += `Sem serviço de leva e traz\n`;
 				schedule[
 					`${number}`
