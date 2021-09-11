@@ -159,7 +159,6 @@ async function messenger(client, msg, number) {
             case "1133":
             case "1231":
             case "1232":
-            case "1232":
             case "1233":
                 const aniamlSize = aniamlSizeTypes[Number(message) - 1];
                 schedule[`${number}`].historico.push("animal_size");
@@ -196,7 +195,6 @@ async function messenger(client, msg, number) {
             case "113321":
             case "123121":
             case "123221":
-            case "123221":
                 schedule[`${number}`].resume += "Serviço leva e traz\n";
                 schedule[`${number}`].historico.push("take_back_service");
                 schedule[`${number}`].address = true;
@@ -215,6 +213,7 @@ async function messenger(client, msg, number) {
             case "123122":
             case "123222":
             case "123222":
+            case "123322":
                 await client.sendMessage(number, menuFinish());
                 schedule[`${number}`].resume += "Serviço leva e traz negado.\n";
                 schedule[`${number}`].complete = true;
