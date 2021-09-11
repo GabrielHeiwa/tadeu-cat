@@ -189,12 +189,13 @@ async function messenger(client, msg, number) {
             case "113311":
             case "123111":
             case "123211":
-            case "123211":
+            case "123311":
             case "113121":
             case "113221":
             case "113321":
             case "123121":
             case "123221":
+            case "123321":
                 schedule[`${number}`].resume += "Serviço leva e traz\n";
                 schedule[`${number}`].historico.push("take_back_service");
                 schedule[`${number}`].address = true;
@@ -206,12 +207,11 @@ async function messenger(client, msg, number) {
             case "113312":
             case "123112":
             case "123212":
-            case "123212":
+            case "123312":
             case "113122":
             case "113222":
             case "113322":
             case "123122":
-            case "123222":
             case "123222":
             case "123322":
                 await client.sendMessage(number, menuFinish());
