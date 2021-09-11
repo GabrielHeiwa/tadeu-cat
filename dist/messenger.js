@@ -171,7 +171,7 @@ async function messenger(client, msg, number) {
             case "11331":
             case "12311":
             case "12321":
-            case "12321":
+            case "12331":
             case "11312":
             case "11322":
             case "11332":
