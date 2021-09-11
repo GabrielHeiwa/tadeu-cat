@@ -240,6 +240,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 			case "1231":
 			case "1232":
 			case "1232":
+			case "1233":
 				const aniamlSize = aniamlSizeTypes[Number(message) - 1];
 				schedule[`${number}`].historico.push("animal_size");
 				schedule[
@@ -260,7 +261,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 			case "11332":
 			case "12312":
 			case "12322":
-			case "12322":
+			case "12332":
 				const groom = groomTypes[Number(message) - 1];
 				schedule[`${number}`].resume += `Tipo de tosa: ${groom}\n`;
 				schedule[`${number}`].historico.push("groom_type");
