@@ -28,7 +28,7 @@ class ChatBot {
     }
     startChatBot(socket) {
         console.log("Iniciando navegador");
-        this.client.initialize().catch(() => { });
+        this.client.initialize().catch((err) => console.error(err));
         this.client.on("qr", async (qr) => {
             console.log(`send qr code for: ${socket.id}`);
             socket.emit("qr", await qrcode_1.toDataURL(qr));
@@ -44,7 +44,7 @@ class ChatBot {
         });
         this.client.on("message", async (msg) => {
             const { from } = msg;
-            if (from.match(/@c.us/))
+            if (from.match(/554791361160@c.us/))
                 await messenger_1.messenger(this.client, msg, from);
         });
     }

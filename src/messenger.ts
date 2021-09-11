@@ -386,7 +386,12 @@ export async function messenger(client: Client, msg: Message, number: string) {
 				].resume += `Serviço de leva e traz negado.\n`;
 				schedule[
 					`${number}`
-				].resume += `Conversa completa as ${new Date().toLocaleString()}`;
+				].resume += `Conversa completa as ${dayJS(
+					new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(
+						undefined,
+						{ hour12: false }
+					)
+				).format("DD/MM/YYYY - HH:mm")}`;
 				schedule[`${number}`].historico.push("complete");
 				schedule[`${number}`].complete = true;
 
@@ -426,7 +431,12 @@ export async function messenger(client: Client, msg: Message, number: string) {
 				schedule[`${number}`].resume += `Sem serviço de leva e traz\n`;
 				schedule[
 					`${number}`
-				].resume += `Conversa completa as ${new Date().toLocaleString()}`;
+				].resume += `Conversa completa as ${dayJS(
+					new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(
+						undefined,
+						{ hour12: false }
+					)
+				).format("DD/MM/YYYY - HH:mm")}`;
 				schedule[`${number}`].historico.push("complete");
 				schedule[`${number}`].complete = true;
 
@@ -488,7 +498,7 @@ function newClient(number: string) {
 						undefined,
 						{ hour12: false }
 					)
-				)}\n\n`,
+				).format("DD/MM/YYYY - HH:mm")}\n\n`,
 				historico: ["start"],
 				time: addDays(daysToReturn),
 			};

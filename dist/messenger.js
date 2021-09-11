@@ -235,6 +235,7 @@ async function messenger(client, msg, number) {
                 schedule[`${number}`].address = true;
                 await client.sendMessage(number, menu_go_to_back_answer());
                 break;
+            // Consults without take back service
             case "1142":
             case "1242":
                 await client.sendMessage(number, menuFinish());
@@ -258,6 +259,7 @@ async function messenger(client, msg, number) {
                 break;
             // General surgery animal hospitalized with take back service
             case "11511":
+            case "12511":
                 schedule[`${number}`].address = true;
                 schedule[`${number}`].resume += "Serviço leva e traz\n";
                 schedule[`${number}`].historico.push("take_back_service");
@@ -265,8 +267,9 @@ async function messenger(client, msg, number) {
                 break;
             // General surgery animal hospitalized without take back service
             case "11512":
+            case "12512":
                 schedule[`${number}`].resume += `Serviço de leva e traz negado.\n`;
-                schedule[`${number}`].resume += `Conversa completa as ${new Date().toLocaleString()}`;
+                schedule[`${number}`].resume += `Conversa completa as ${dayjs_1.default(new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(undefined, { hour12: false })).format("DD/MM/YYYY - HH:mm")}`;
                 schedule[`${number}`].historico.push("complete");
                 schedule[`${number}`].complete = true;
                 await client.sendMessage(number, menuFinish());
@@ -289,9 +292,11 @@ async function messenger(client, msg, number) {
                 break;
             // General surgery without take back service
             case "11522":
+            case "11512":
             case "12522":
+            case "12512":
                 schedule[`${number}`].resume += `Sem serviço de leva e traz\n`;
-                schedule[`${number}`].resume += `Conversa completa as ${new Date().toLocaleString()}`;
+                schedule[`${number}`].resume += `Conversa completa as ${dayjs_1.default(new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(undefined, { hour12: false })).format("DD/MM/YYYY - HH:mm")}`;
                 schedule[`${number}`].historico.push("complete");
                 schedule[`${number}`].complete = true;
                 await client.sendMessage(number, menuFinish());
@@ -330,7 +335,7 @@ function newClient(number) {
                 address: false,
                 hour: false,
                 number,
-                resume: `Inicio ${dayjs_1.default(new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(undefined, { hour12: false }))}\n\n`,
+                resume: `Inicio ${dayjs_1.default(new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(undefined, { hour12: false })).format("DD/MM/YYYY - HH:mm")}\n\n`,
                 historico: ["start"],
                 time: addDays(daysToReturn),
             };
