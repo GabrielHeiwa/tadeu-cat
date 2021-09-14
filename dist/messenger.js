@@ -66,7 +66,7 @@ async function messenger(client, msg, number) {
         if (schedule[`${number}`].complete && schedule[`${number}`].waiting) {
             return;
         }
-        schedule[`${number}`].level += message;
+        schedule[`${number}`].level += message[0];
         if (message == "0") {
             await client.sendMessage(number, finishConversation());
             delete schedule[`${number}`];
@@ -295,8 +295,33 @@ async function messenger(client, msg, number) {
             case "11512":
             case "12522":
             case "12512":
-                schedule[`${number}`].resume += `Sem serviço de leva e traz\n`;
-                schedule[`${number}`].resume += `Conversa completa as ${dayjs_1.default(new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(undefined, { hour12: false })).format("DD/MM/YYYY - HH:mm")}`;
+                schedule[`${number}`].resume += `Serviço e traz negado\n`;
+                schedule[`${number}`].historico.push("complete");
+                schedule[`${number}`].complete = true;
+                await client.sendMessage(number, menuFinish());
+                await completeConversation(client, schedule[`${number}`].resume, await client.getContactById(number));
+                break;
+            // Retirada de pontos.
+            case "116":
+            case "126":
+                schedule[`${number}`].historico.push("retirada_de_pontos");
+                schedule[`${number}`].resume += "Retirada de pontos";
+                schedule[`${number}`].hour = true;
+                await client.sendMessage(number, points());
+                break;
+            // Retirada de pontos serviço leva e traz aceito.
+            case "1161":
+            case "1261":
+                schedule[`${number}`].resume += "Serviço leva e traz\n";
+                schedule[`${number}`].historico.push("take_back_service");
+                await client.sendMessage(number, menu_go_to_back_answer());
+                schedule[`${number}`].address = true;
+                ;
+                break;
+            // Retirada de pontos serviço leva e trás negado.
+            case "1162":
+            case "1262":
+                schedule[`${number}`].resume += `Serviço e traz negado\n`;
                 schedule[`${number}`].historico.push("complete");
                 schedule[`${number}`].complete = true;
                 await client.sendMessage(number, menuFinish());
@@ -323,6 +348,11 @@ function wrongAnswer() {
     let message = "Parece que sua resposta não esta dentro dos parâmetros que informamos anteriormente, poderia nos mandar 'oi' para começarmos de novo por gentileza";
     return message;
 }
+function points() {
+    let message = "Para a retirada de pontos não é necessário agendar um horário, apenas comparecer na Clínica na sua melhor disponibilidade, no período entre 8h30 e 16h30 😊🐾\n";
+    message += "Qual é a sua melhor disponibilidade de horário?";
+    return message;
+}
 function newClient(number) {
     if (schedule[`${number}`]) {
         if (schedule[`${number}`].time <= Date.now()) {
@@ -335,7 +365,7 @@ function newClient(number) {
                 address: false,
                 hour: false,
                 number,
-                resume: `Inicio ${dayjs_1.default(new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(undefined, { hour12: false })).format("DD/MM/YYYY - HH:mm")}\n\n`,
+                resume: `Inicio ${dayjs_1.default(new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString("en-US", { hour12: false })).format("DD/MM/YYYY - HH:mm")}\n\n`,
                 historico: ["start"],
                 time: addDays(daysToReturn),
             };
@@ -354,7 +384,7 @@ function newClient(number) {
             address: false,
             hour: false,
             number,
-            resume: `Inicio ${dayjs_1.default(new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(undefined, { hour12: false })).format("DD/MM/YYYY - HH:mm")}\n\n`,
+            resume: `Inicio ${dayjs_1.default(new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString("en-US", { hour12: false })).format("DD/MM/YYYY - HH:mm")}\n\n`,
             historico: ["start"],
             time: addDays(daysToReturn),
         };
@@ -379,12 +409,13 @@ function menu() {
     return message;
 }
 function menu_secundary() {
-    let message = "Qual tipo de serviço você precisa?\n";
+    let message = "Qual tipo de serviço você precisa? (selecione somente uma opção)\n";
     message += "1 - Castração\n";
     message += "2 - Vacinas\n";
     message += "3 - Banho e tosa\n";
     message += "4 - Consultas\n";
-    message += "5 - Cirurgias gerais\n\n";
+    message += "5 - Cirurgias gerais\n";
+    message += "6 - Retirada de pontos\n\n";
     message += "Digite 0 para retornar ao início da conversa.";
     return message;
 }

@@ -101,7 +101,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 			return;
 		}
 
-		schedule[`${number}`].level += message;
+		schedule[`${number}`].level += message[0];
 
 		if (message == "0") {
 			await client.sendMessage(number, finishConversation());
@@ -384,9 +384,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 				schedule[
 					`${number}`
 				].resume += `Serviço de leva e traz negado.\n`;
-				schedule[
-					`${number}`
-				].resume += `Conversa completa as ${dayJS(
+				schedule[`${number}`].resume += `Conversa completa as ${dayJS(
 					new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(
 						undefined,
 						{ hour12: false }
@@ -428,15 +426,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 			case "11512":
 			case "12522":
 			case "12512":
-				schedule[`${number}`].resume += `Sem serviço de leva e traz\n`;
-				schedule[
-					`${number}`
-				].resume += `Conversa completa as ${dayJS(
-					new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(
-						undefined,
-						{ hour12: false }
-					)
-				).format("DD/MM/YYYY - HH:mm")}`;
+				schedule[`${number}`].resume += `Serviço e traz negado\n`;
 				schedule[`${number}`].historico.push("complete");
 				schedule[`${number}`].complete = true;
 
@@ -448,6 +438,42 @@ export async function messenger(client: Client, msg: Message, number: string) {
 					await client.getContactById(number)
 				);
 
+				break;
+
+			// Retirada de pontos.
+			case "116":
+			case "126":
+				schedule[`${number}`].historico.push("retirada_de_pontos");
+				schedule[`${number}`].resume += "Retirada de pontos";
+				schedule[`${number}`].hour = true;
+				
+				await client.sendMessage(number, points());
+				break;
+
+			// Retirada de pontos serviço leva e traz aceito.
+			case "1161":
+			case "1261":
+				schedule[`${number}`].resume += "Serviço leva e traz\n";
+				schedule[`${number}`].historico.push("take_back_service");
+				await client.sendMessage(number, menu_go_to_back_answer());
+
+				schedule[`${number}`].address = true;;
+				break;
+
+			// Retirada de pontos serviço leva e trás negado.
+			case "1162":
+			case "1262":
+				schedule[`${number}`].resume += `Serviço e traz negado\n`;
+				schedule[`${number}`].historico.push("complete");
+				schedule[`${number}`].complete = true;
+
+				await client.sendMessage(number, menuFinish());
+
+				await completeConversation(
+					client,
+					schedule[`${number}`].resume,
+					await client.getContactById(number)
+				);
 				break;
 
 			default:
@@ -481,6 +507,13 @@ function wrongAnswer() {
 	return message;
 }
 
+function points() {
+	let message =
+		"Para a retirada de pontos não é necessário agendar um horário, apenas comparecer na Clínica na sua melhor disponibilidade, no período entre 8h30 e 16h30 😊🐾\n";
+		message += "Qual é a sua melhor disponibilidade de horário?"
+		return message;
+}
+
 function newClient(number: string) {
 	if (schedule[`${number}`]) {
 		if (schedule[`${number}`].time <= Date.now()) {
@@ -495,7 +528,7 @@ function newClient(number: string) {
 				number,
 				resume: `Inicio ${dayJS(
 					new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(
-						undefined,
+						"en-US",
 						{ hour12: false }
 					)
 				).format("DD/MM/YYYY - HH:mm")}\n\n`,
@@ -519,7 +552,7 @@ function newClient(number: string) {
 			number,
 			resume: `Inicio ${dayJS(
 				new Date(Date.now() - 1000 * 60 * 60 * 3).toLocaleString(
-					undefined,
+					"en-US",
 					{ hour12: false }
 				)
 			).format("DD/MM/YYYY - HH:mm")}\n\n`,
@@ -552,12 +585,13 @@ function menu() {
 }
 
 function menu_secundary() {
-	let message = "Qual tipo de serviço você precisa?\n";
+	let message = "Qual tipo de serviço você precisa? (selecione somente uma opção)\n";
 	message += "1 - Castração\n";
 	message += "2 - Vacinas\n";
 	message += "3 - Banho e tosa\n";
 	message += "4 - Consultas\n";
-	message += "5 - Cirurgias gerais\n\n";
+	message += "5 - Cirurgias gerais\n";
+	message += "6 - Retirada de pontos\n\n";
 	message += "Digite 0 para retornar ao início da conversa.";
 
 	return message;
