@@ -101,7 +101,7 @@ export async function messenger(client: Client, msg: Message, number: string) {
 			return;
 		}
 
-		schedule[`${number}`].level += message[0];
+		schedule[`${number}`].level += message;
 
 		if (message == "0") {
 			await client.sendMessage(number, finishConversation());

@@ -66,7 +66,7 @@ async function messenger(client, msg, number) {
         if (schedule[`${number}`].complete && schedule[`${number}`].waiting) {
             return;
         }
-        schedule[`${number}`].level += message[0];
+        schedule[`${number}`].level += message;
         if (message == "0") {
             await client.sendMessage(number, finishConversation());
             delete schedule[`${number}`];
