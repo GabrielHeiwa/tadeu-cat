@@ -40,7 +40,6 @@ class ChatBot {
         });
         this.client.on("ready", () => {
             console.log("Bot pronto para começar");
-            socket.emit("status", "ChatBot pronto para começar");
         });
         this.client.on("message", async (msg) => {
             const { from } = msg;

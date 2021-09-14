@@ -385,14 +385,14 @@ function menu_secundary() {
     message += "3 - Banho e tosa\n";
     message += "4 - Consultas\n";
     message += "5 - Cirurgias gerais\n\n";
-    message += "Digite 0 para encerrar a conversa.";
+    message += "Digite 0 para retornar ao início da conversa.";
     return message;
 }
 function menu_go_to_back() {
     let message = "Você deseja nosso serviço de leva e traz 🚗  para seu pet? 🐾\n";
     message += "1 - Sim\n";
     message += "2 - Não\n\n";
-    message += "Digite 0 para encerrar a conversa.";
+    message += "Digite 0 para retornar ao início da conversa.";
     return message;
 }
 function menu_go_to_back_answer() {
@@ -434,6 +434,6 @@ function menuGeneralSurgery() {
     let message = "Você possui algum animal internado conosco?\n";
     message += "1 - Sim\n";
     message += "2 - Não\n\n";
-    message += "Digite 0 para encerrar a conversa.";
+    message += "Digite 0 para retornar ao início da conversa.";
     return message;
 }
