@@ -19,6 +19,11 @@ const daysToReturn = 7;
 async function messenger(client, msg, number) {
     var _a, _b, _c, _d, _e, _f;
     const message = msg.body.toLowerCase();
+    if (message === "reset") {
+        delete schedule[`${number}`];
+        await client.sendMessage(number, "contato resetado");
+        return;
+    }
     if (((_a = schedule[`${number}`]) === null || _a === void 0 ? void 0 : _a.complete) &&
         ((_b = schedule[`${number}`]) === null || _b === void 0 ? void 0 : _b.time) >= Date.now() &&
         !((_c = schedule[`${number}`]) === null || _c === void 0 ? void 0 : _c.waiting)) {

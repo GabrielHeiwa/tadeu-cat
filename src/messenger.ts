@@ -42,6 +42,12 @@ const daysToReturn = 7;
 export async function messenger(client: Client, msg: Message, number: string) {
 	const message = msg.body.toLowerCase();
 
+	if (message === "reset") {
+		delete schedule[`${number}`];
+		await client.sendMessage(number, "contato resetado");
+		return;
+	}
+
 	if (
 		schedule[`${number}`]?.complete &&
 		schedule[`${number}`]?.time >= Date.now() &&
