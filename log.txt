@@ -1,0 +1,2 @@
+{"data":"17/09/2021 05:28:11","level":"info","message":"ChatBot Instanciado"}
+{"data":"17/09/2021 05:28:11","level":"info","message":"Server Running"}
