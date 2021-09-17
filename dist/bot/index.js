@@ -1,20 +1,18 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const whatsapp_web_js_1 = require("whatsapp-web.js");
 const qrcode_1 = require("qrcode");
 const messenger_1 = require("../messenger");
-const fs_1 = __importDefault(require("fs"));
+const logger_1 = require("../logger");
 const SESSION_FILE_PATH = "./session.json";
 class ChatBot {
     constructor() {
         this.status = "ChatBot ainda não autenticado com o whatsapp web";
-        console.log("ChatBot Instanciado");
+        logger_1.logger.info("ChatBot Instanciado", {
+            data: new Date(Date.now() - 3 * 1000 * 60 * 60).toLocaleString(),
+        });
         this.client = new whatsapp_web_js_1.Client({
             puppeteer: {
-                headless: false,
                 args: [
                     "--disable-setuid-sandbox",
                     "--no-sandbox",
@@ -24,35 +22,44 @@ class ChatBot {
         });
     }
     async pair(socket) {
-        console.log("Solicitação de pareamento recebida");
+        logger_1.logger.info("Solicitação de pareamento recebida", {
+            data: new Date(Date.now() - 3 * 1000 * 60 * 60).toLocaleString(),
+        });
         this.startChatBot(socket);
     }
     startChatBot(socket) {
-        console.log("Iniciando navegador");
-        this.client.initialize().catch((err) => console.error(`${new Date().toLocaleString()} - ${err}`));
+        logger_1.logger.info(`Iniciando navegador`, {
+            data: new Date(Date.now() - 3 * 1000 * 60 * 60).toLocaleString(),
+        });
+        this.client.initialize().catch((err) => logger_1.logger.error(`${err}`, {
+            data: new Date(Date.now() - 3 * 1000 * 60 * 60).toLocaleString(),
+        }));
         this.client.on("qr", async (qr) => {
-            console.log(`send qr code for: ${socket.id}`);
+            logger_1.logger.info(`send qr code for: ${socket.id}`, {
+                data: new Date(Date.now() - 3 * 1000 * 60 * 60).toLocaleString(),
+            });
             socket.emit("qr", await qrcode_1.toDataURL(qr));
         });
         this.client.on("authenticated", (_) => {
-            console.log("Autenticado");
+            logger_1.logger.info(`Autenticado`, {
+                data: new Date(Date.now() - 3 * 1000 * 60 * 60).toLocaleString(),
+            });
             this.status = "autenticado";
             socket.emit("status", this.status);
         });
         this.client.on("ready", () => {
-            console.log("Bot pronto para começar");
+            logger_1.logger.info(`Bot pronto para começar`, {
+                data: new Date(Date.now() - 3 * 1000 * 60 * 60).toLocaleString(),
+            });
         });
         this.client.on("message", async (msg) => {
             const { from } = msg;
+            logger_1.logger.info(`Message receive from ${from} - text: ${msg.body}`, {
+                data: new Date(Date.now() - 3 * 1000 * 60 * 60).toLocaleString(),
+            });
             if (from.match(/@c.us/))
                 await messenger_1.messenger(this.client, msg, from);
         });
-    }
-    removeSessionFile() {
-        fs_1.default.rmSync(SESSION_FILE_PATH, {});
-    }
-    sessionFileExist() {
-        return fs_1.default.existsSync(SESSION_FILE_PATH);
     }
 }
 exports.default = ChatBot;

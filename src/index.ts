@@ -3,6 +3,7 @@ import { Server } from "socket.io";
 import { resolve } from "path";
 import express from "express";
 import ChatBot from "./bot";
+import { logger } from "./logger";
 
 const INDEX_FILE_PATH = resolve(__dirname, "public", "index.html");
 
@@ -23,8 +24,13 @@ export const socket = new Server(server, {
 });
 
 socket.on("connection", (socket) => {
-	socket.on("disconnect", (socket) => console.log(socket + " disconnected"));
-	console.log(`Socket connected: ${socket.id}`);
+	socket.on("disconnect", (socket) => logger.info(socket + " disconnected", {
+        data: new Date(Date.now() - 3 * 1000 * 60 * 60).toLocaleString(),
+    }));
+
+	logger.info(`Socket connected: ${socket.id}`, {
+        data: new Date(Date.now() - 3 * 1000 * 60 * 60).toLocaleString(),
+    });
 
 	socket.emit("status", Bot.status);
 	socket.on("pair", async () => {
@@ -40,5 +46,8 @@ socket.on("connection", (socket) => {
     });
 });
 
-server.listen(3333, () => console.log("Server Running"));
+server.listen(3333, () => logger.info("Server Running", {
+    data: new Date(Date.now() - 3 * 1000 * 60 * 60).toLocaleString(),
+}));
+
 export default server;
