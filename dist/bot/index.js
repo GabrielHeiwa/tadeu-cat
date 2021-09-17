@@ -14,6 +14,7 @@ class ChatBot {
         console.log("ChatBot Instanciado");
         this.client = new whatsapp_web_js_1.Client({
             puppeteer: {
+                headless: false,
                 args: [
                     "--disable-setuid-sandbox",
                     "--no-sandbox",
@@ -28,7 +29,7 @@ class ChatBot {
     }
     startChatBot(socket) {
         console.log("Iniciando navegador");
-        this.client.initialize().catch((err) => console.error(err));
+        this.client.initialize().catch((err) => console.error(`${new Date().toLocaleString()} - ${err}`));
         this.client.on("qr", async (qr) => {
             console.log(`send qr code for: ${socket.id}`);
             socket.emit("qr", await qrcode_1.toDataURL(qr));

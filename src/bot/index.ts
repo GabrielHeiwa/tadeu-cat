@@ -16,6 +16,7 @@ export default class ChatBot {
 		console.log("ChatBot Instanciado");
 		this.client = new Client({
 			puppeteer: {
+				headless: false,
 				args: [
 					"--disable-setuid-sandbox",
 					"--no-sandbox",
@@ -35,7 +36,7 @@ export default class ChatBot {
 	private startChatBot(socket: SocketType) {
 		console.log("Iniciando navegador");
 
-		this.client.initialize().catch((err) => console.error(err));
+		this.client.initialize().catch((err) => console.error(`${new Date().toLocaleString()} - ${err}`));
 
 		this.client.on("qr", async (qr) => {
 			console.log(`send qr code for: ${socket.id}`);
